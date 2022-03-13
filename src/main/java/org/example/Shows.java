@@ -1,6 +1,6 @@
 package org.example;
 
-public class shows
+public class Shows
 {
     private int id;
     private String name;
@@ -11,7 +11,7 @@ public class shows
     private int averageScore;
     private int noOfReviews;
 
-    public shows(int id, String name, int year, String genre, String studio, int yourScore, int averageScore, int noOfReviews)
+    public Shows(int id, String name, int year, String genre, String studio, int yourScore, int averageScore, int noOfReviews)
     {
         this.id = id;
         this.name = name;
@@ -61,5 +61,45 @@ public class shows
     public int getNoOfReviews()
     {
         return noOfReviews;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setYear(int year)
+    {
+        this.year = year;
+    }
+
+    public void setGenre(String genre)
+    {
+        this.genre = genre;
+    }
+
+    public void setStudio(String studio)
+    {
+        this.studio = studio;
+    }
+
+    public void setYourScore(int yourScore)
+    {
+        this.yourScore = yourScore;
+    }
+
+    public void setAverageScore(int averageScore)
+    {
+        this.averageScore = averageScore;
+    }
+
+    public void setNoOfReviews(int noOfReviews)
+    {
+        this.noOfReviews = noOfReviews;
     }
 }

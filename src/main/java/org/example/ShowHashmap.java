@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.HashMap;
 
-public class showHashmap
+public class ShowHashmap
 {
     public static void main(String[] args)
     {

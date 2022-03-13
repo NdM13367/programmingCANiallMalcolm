@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class App
@@ -26,6 +27,10 @@ public class App
 
                 case DISPLAY_SHOWS:
                     displayShows();
+                    break;
+
+                case PRIORITY_QUEUE:
+                    priorityQueue();
                     break;
 
                 case QUIT:
@@ -59,5 +64,10 @@ public class App
                 e.printStackTrace();
             }
         }
+    }
+
+    private static void priorityQueue()
+    {
+
     }
 }
