@@ -33,6 +33,10 @@ public class App
                     priorityQueue();
                     break;
 
+                case DISPLAY_ONLY_SHOWS:
+                    displayOnlyShows();
+                    break;
+
                 case QUIT:
                     quit = true;
                     break;
@@ -40,20 +44,24 @@ public class App
         }
     }
 
+
+
     private static void printOptions()
     {
         System.out.println("\n Available Options");
         System.out.println("0 - to print all options \n"+
                 "1 - to display shows\n"+
-                "2 - to quit \n");
+                "2 - priority queue\n"+
+                "3 - to display only shows\n"+
+                "4 - to quit \n");
     }
 
     private static void displayShows()
     {
         {
             try {
-                File passengerDetails = new File("Shows");
-                Scanner myReader = new Scanner(passengerDetails);
+                File showDetails = new File("Shows");
+                Scanner myReader = new Scanner(showDetails);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
                     System.out.println(data);
@@ -69,5 +77,23 @@ public class App
     private static void priorityQueue()
     {
 
+    }
+
+    private static void displayOnlyShows()
+    {
+        {
+            try {
+                File onlyShowDetails = new File("Available Shows");
+                Scanner myReader = new Scanner(onlyShowDetails);
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    System.out.println(data);
+                }
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        }
     }
 }
