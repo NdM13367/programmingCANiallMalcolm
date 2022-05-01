@@ -23,6 +23,14 @@ public class Shows
         this.noOfReviews = noOfReviews;
     }
 
+    public void displayShow()
+    {
+        String leftAlignFormat = "| %-14s| %-14d| %-14d| %-14d| %-29s  |%n";
+        System.out.format( leftAlignFormat, id, name, year, genre, studio, yourScore, averageScore, noOfReviews);
+        System.out.print(("-").repeat(98) + "\n");
+
+    }
+
     public int getId()
     {
         return id;

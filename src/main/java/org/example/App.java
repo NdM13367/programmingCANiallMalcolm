@@ -1,24 +1,29 @@
 package org.example;
 
+import Enums.ShowMenuOptions;
+
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class App
 {
     private static Scanner keyboard = new Scanner(System.in);
+    private List<Shows> shows = new ArrayList<>();
+
+
 
     public static void main( String[] args )
     {
-        System.out.println("Welcome to the car booking system");
-        websiteMenuOptions selectedOption = websiteMenuOptions.PRINT_MENU;
+        welcomeScreen();
+        ShowMenuOptions selectedOption = ShowMenuOptions.PRINT_MENU;
         boolean quit = false;
 
         while(!quit)
         {
             System.out.print("\n Enter action: (0 to show available options) > ");
-            selectedOption = websiteMenuOptions.values()[Integer.parseInt(keyboard.nextLine().trim())];
+            selectedOption = ShowMenuOptions.values()[Integer.parseInt(keyboard.nextLine().trim())];
 
             switch(selectedOption)
             {
@@ -26,28 +31,20 @@ public class App
                     printOptions();
                     break;
 
-                case DISPLAY_SHOWS:
-                    displayShows();
+                case DISPLAY_SHOWS_DETAILS:
+                    displayAllShows();
                     break;
 
-                case PRIORITY_QUEUE:
-                    priorityQueue();
+                case DISPLAY_BY_ID:
+                    displayByID();
                     break;
 
-                case DISPLAY_ONLY_SHOWS:
-                    displayOnlyShows();
-                    break;
-
-                case REMOVE_SHOW:
-                    removeShow();
+                case REMOVE_SHOW_BY_ID:
+                    removeShowByID();
                     break;
 
                 case ADD_SHOW:
                     addShow();
-                    break;
-
-                case HIGHEST_LOWEST:
-                    highestToLowest();
                     break;
 
                 case QUIT:
@@ -57,6 +54,13 @@ public class App
         }
     }
 
+    private static void welcomeScreen()
+    {
+        System.out.print("\nWelcome to the Show Ranking List." +
+                "\nPlease Press ENTER to start the application:" );
+        Scanner keyboard = new Scanner(System.in);
+        keyboard.nextLine();
+    }
 
 
     private static void printOptions()
@@ -64,15 +68,13 @@ public class App
         System.out.println("\n Available Options");
         System.out.println("0 - to print all options \n"+
                 "1 - to display shows\n"+
-                "2 - priority queue\n"+
-                "3 - to display only shows\n"+
-                "4 - remove all shows\n"+
-                "5 - add a show\n"+
-                "6 - highest and lowest\n"+
-                "7 - to quit \n");
+                "2 - to display only shows\n"+
+                "3 - remove all shows\n"+
+                "4 - add a show\n"+
+                "5 - to quit \n");
     }
 
-    private static void displayShows()
+    private static void displayAllShows()
     {
         {
             try {
@@ -93,40 +95,60 @@ public class App
         }
     }
 
-    private static void priorityQueue()
+    private static void displayByID()
     {
-
-    }
-
-    private static void displayOnlyShows()
-    {
-        {
-            try {
-                File onlyShowDetails = new File("Available Shows");
-                Scanner myReader = new Scanner(onlyShowDetails);
-                while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
-                    System.out.println(data);
-                }
-                myReader.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Enter id-1: ");
+        int n = keyboard.nextInt();
+        try{
+            String line = Files.readAllLines(Paths.get("Shows")).get(n);
+            System.out.println(line);
+        }
+        catch(IOException e){
+            System.out.println(e);
         }
     }
 
-    private static void removeShow()
-    // code from w3schools
+    private static void removeShowByID()
     {
-        try{
-            FileWriter fw = new FileWriter("Shows", false);
-            PrintWriter pw = new PrintWriter(fw, false);
-            pw.flush();
-            pw.close();
-            fw.close();
-        }catch(Exception exception){
-            System.out.println("Exception have been caught");
+        String input = "Please delete: ";
+        System.out.println(input);
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    System.in));
+            String line = reader.readLine();
+            reader.close();
+
+            String inFile = "Shows";
+
+
+            System.out.println("Remove: " + line);
+            String lineToRemove = line;
+
+
+            StringBuffer newContent = new StringBuffer();
+
+            BufferedReader br = new BufferedReader(new FileReader(inFile));
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().equals(lineToRemove)) {
+                    newContent.append(line);
+                    newContent.append("\n"); // new line
+
+                }
+            }
+            br.close();
+
+            FileWriter removeLine = new FileWriter(inFile);
+            BufferedWriter change = new BufferedWriter(removeLine);
+            PrintWriter replace = new PrintWriter(change);
+            replace.write(newContent.toString());
+            replace.close();
+
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -158,44 +180,11 @@ public class App
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(id + ", " + name + ", " + year + ", " + genre + ", " + studio + ", " + yourScore + ", " + averageScore + ", " + noOfReviews);
+            out.println("\n" + id + ", " + name + ", " + year + ", " + genre + ", " + studio + ", " + yourScore + ", " + averageScore + ", " + noOfReviews);
         }
         catch (IOException e)
         {
 
         }
-    }
-
-    private static void highestToLowest()
-    {
-        Scanner input = new Scanner(System.in);
-        String highestName = "";
-        int highestScore = 0;
-        String lowestName = "";
-        int lowestScore = 0;
-
-        System.out.print("Enter number of the show id ");
-        int id = input.nextInt();
-
-        for (int i = 0; i < id; i++) {
-            System.out.print("Enter show's name: ");
-            String name = input.next();
-            System.out.println("Enter " + name + " 's score: ");
-            int yourScore = input.nextInt();
-            lowestScore = yourScore;
-
-            if (yourScore > highestScore) {
-                highestScore = yourScore;
-                highestName = name;
-            }
-
-            if (yourScore < lowestScore) {
-                lowestScore = yourScore;
-                lowestName = name;
-            }
-        }
-
-        System.out.println(highestName + " get highest score : " + highestScore);
-        System.out.println(lowestName + " get lowest score : " + lowestScore);
     }
 }
