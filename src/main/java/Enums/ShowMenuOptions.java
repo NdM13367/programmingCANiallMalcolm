@@ -7,7 +7,6 @@ public enum ShowMenuOptions
     DISPLAY_BY_ID,
     REMOVE_SHOW_BY_ID,
     ADD_SHOW,
-    HIGHEST_SHOW,
-    LOWEST_SHOW,
+    DISPLAY_JSON_STRING_LIST_OF_SHOWS,
     QUIT
 }

@@ -1,6 +1,9 @@
 package org.example;
 
+import DAO.showdao.MySqlShowDao;
+import DAO.showdao.ShowDaoInterface;
 import Enums.ShowMenuOptions;
+import Exceptions.DaoException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -11,6 +14,7 @@ public class App
 {
     private static Scanner keyboard = new Scanner(System.in);
     private List<Shows> shows = new ArrayList<>();
+    private static ShowDaoInterface showDao = new MySqlShowDao();
 
 
 
@@ -47,12 +51,18 @@ public class App
                     addShow();
                     break;
 
+                case DISPLAY_JSON_STRING_LIST_OF_SHOWS:
+                    displayJsonStringListOfShows();
+                    break;
+
                 case QUIT:
                     quit = true;
                     break;
             }
         }
     }
+
+
 
     private static void welcomeScreen()
     {
@@ -68,10 +78,11 @@ public class App
         System.out.println("\n Available Options");
         System.out.println("0 - to print all options \n"+
                 "1 - to display shows\n"+
-                "2 - to display only shows\n"+
-                "3 - remove all shows\n"+
+                "2 - to display shows by id\n"+
+                "3 - remove shows by id\n"+
                 "4 - add a show\n"+
-                "5 - to quit \n");
+                "5 - display shows through json\n"+
+                "6 - to quit \n");
     }
 
     private static void displayAllShows()
@@ -185,6 +196,34 @@ public class App
         catch (IOException e)
         {
 
+        }
+    }
+    private static void displayJsonStringListOfShows()
+    {
+        try
+        {
+            String showJsonString = showDao.findAllShowsJson();
+
+            if(showJsonString.equals("null"))
+            {
+                System.out.println("Train ID does not exist. Please go to the Menu option to Display Trains " + "\n"
+                        + "and find one that is available.");
+            }
+            else
+            {
+                String[] trainJsonStringArray = showJsonString.split("(?=[{])");
+
+                for (String train : trainJsonStringArray)
+                {
+                    System.out.println(train);
+                }
+
+            }
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
         }
     }
 }
